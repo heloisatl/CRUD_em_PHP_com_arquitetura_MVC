@@ -3,13 +3,16 @@
 // ClienteController.php
 require_once '../model/Cliente.php';
 require_once '../dao/ClienteDAO.php';
+require_once '../dao/TipoServicoDAO.php';
 
 class ClienteController {
 
     private ClienteDAO $clienteDAO;
+    private TipoServicoDAO $tipoServicoDAO; 
     
     public function __construct() {
         $this->clienteDAO = new ClienteDAO();
+        
     }
     
     public function listar() {

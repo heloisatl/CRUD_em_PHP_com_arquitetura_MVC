@@ -31,12 +31,12 @@ class OrdemServicoService
             $erros[] = "O status informado é inválido.";
         }
 
-        if (empty($ordemServico->getIdCliente()) || !is_numeric($ordemServico->getIdCliente())) {
-            $erros[] = "O ID do cliente é obrigatório e deve ser numérico.";
+        if ($ordemServico->getCliente() === null || !is_numeric($ordemServico->getCliente()->getId())) {
+            $erros[] = "Cliente é obrigatório.";
         }
 
-        if (empty($ordemServico->getIdTipoServico()) || !is_numeric($ordemServico->getIdTipoServico())) {
-            $erros[] = "O ID do tipo de serviço é obrigatório e deve ser numérico.";
+        if ($ordemServico->getTipoServico() === null || !is_numeric($ordemServico->getTipoServico()->getId())) {
+            $erros[] = "Tipo de serviço é obrigatório.";
         }
 
         return $erros;

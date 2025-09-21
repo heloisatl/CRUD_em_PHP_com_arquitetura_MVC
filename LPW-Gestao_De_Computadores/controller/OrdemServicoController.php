@@ -1,6 +1,4 @@
 <?php
-// OrdemServicoController.php
-// Replace all relative paths with absolute paths using __DIR__
 require_once __DIR__ . '/../model/OrdemServico.php';
 require_once __DIR__ . '/../service/OrdemServicoService.php';
 require_once __DIR__ . '/../dao/ClienteDAO.php';
@@ -22,78 +20,83 @@ class OrdemServicoController
         $this->tipoServicoDAO = new TipoServicoDAO();
     }
 
-    public function listar()
+    public function listar(): array
     {
-
-        $lista = $this->ordemServicoDAO->listar();
-        return $lista;
-        // $ordensServico = $this->ordemServicoService->listarTodos();
-        //include '../view/ordem_servico/listar.php';
+        return $this->ordemServicoDAO->listar();
     }
 
-    public function cadastrar()
+    public function listarClientes(): array
     {
-        $clienteDAO = new ClienteDAO();
-        $tipoServicoDAO = new TipoServicoDAO();
+        return $this->clienteDAO->listar();
+    }
 
-        $clientes = $clienteDAO->listar();
-        $tiposServico = $tipoServicoDAO->listar();
+    public function listarTiposServico(): array
+    {
+        return $this->tipoServicoDAO->listar();
+    }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $ordemServico = new OrdemServico();
-            $ordemServico->setDescricaoProblema($_POST['descricao_problema']);
-            $ordemServico->setDataEntrada($_POST['data_abertura']);
-            $ordemServico->setPrazoEstimadoSaida($_POST['prazo_estimado']);
-            $ordemServico->setStatus($_POST['status']);
+    public function buscarClientePorId(int $id): ?Cliente
+    {
+        return $this->clienteDAO->buscarPorId($id);
+    }
 
-            //$ordemServico->setIdCliente($_POST['id_cliente']);
-            //$ordemServico->setIdTipoServico($_POST['id_tipo_servico']);
+    public function buscarTipoServicoPorId(int $id): ?TipoServico
+    {
+        return $this->tipoServicoDAO->buscarPorId($id);
+    }
 
-            // Ao invés de passar apenas o ID do cliente ou do tipo de serviço para a OrdemServico, é necessário criar um objeto Cliente e um objeto TipoServico e associá-los à OrdemServico. Isso acontece porque o modelo OrdemServico foi projetado para trabalhar com objetos completos dessas classes, permitindo acessar facilmente outros dados do cliente ou do tipo de serviço(por exemplo, nome, email, etc.) a partir da ordem de serviço, se necessário. Assim, o relacionamento entre as entidades fica mais claro e alinhado ao padrão de orientação a objetos, facilitando a manutenção e a expansão do sistema no futuro.
-
-            $cliente = new Cliente();
-            $cliente->setId($_POST['id_cliente']);
-            $ordemServico->setCliente($cliente);
-
-            $tipoServico = new TipoServico();
-            $tipoServico->setId($_POST['id_tipo_servico']);
-            $ordemServico->setTipoServico($tipoServico);
-
-            $resultado = $this->ordemServicoService->validarOrdemServico($ordemServico);
-
-            if ($resultado) {
-                header('Location: listar.php?sucesso=1');
-                exit;
-            } else {
-                $erro = "Erro ao cadastrar ordem de serviço";
-            }
+    // ✅ CORRETO - método que apenas processa o cadastro (sem incluir view)
+    public function cadastrar(OrdemServico $ordemServico)
+    {
+        // Validação
+        $erros = $this->ordemServicoService->validarOrdemServico($ordemServico);
+        
+        if (!empty($erros)) {
+            return $erros; // Retorna array de erros de validação
         }
 
+        // Inserção no banco
+        $erro = $this->ordemServicoDAO->inserir($ordemServico);
+        
+        if ($erro !== null) {
+            return [$erro->getMessage()]; // Retorna array com erro do banco
+        }
+
+        return null; // Sucesso
+    }
+
+    // ✅ NOVO método para exibir o formulário
+    public function exibirFormularioCadastro()
+    {
+        $clientes = $this->listarClientes();
+        $tiposServico = $this->listarTiposServico();
+        
         include '../view/ordem_servico/cadastrar.php';
     }
 
-    public function alterar(OrdemServico $ordemServico)
+    public function alterar(OrdemServico $ordemServico): array
     {
-        $erros = [];
-
-        // Chamando o service para validação
         $erros = $this->ordemServicoService->validarOrdemServico($ordemServico);
+        
         if (count($erros) > 0) {
             return $erros;
         }
 
-        // Se não houver erros de validação, tenta alterar no banco de dados
         $erro = $this->ordemServicoDAO->alterar($ordemServico);
-        if ($erro) {
-            $erros[] = "Erro ao atualizar a ordem de serviço!";
-            // if(defined('AMB_DEV') && AMB_DEV) { // Exemplo de uso de constante para ambiente de desenvolvimento
-            //     $erros[] = $erro->getMessage();
-            // }
-            $erros[] = $erro;
+        if ($erro !== null) {
+            $erros[] = "Erro ao atualizar: " . $erro->getMessage();
         }
 
         return $erros;
     }
 
-    // Outros métodos: editar, visualizar, excluir
+    // ✅ Adicione este método para exclusão
+    public function excluir(int $id): ?string
+    {
+        $erro = $this->ordemServicoDAO->excluirPorId($id);
+        if ($erro !== null) {
+            return $erro->getMessage();
+        }
+        return null;
+    }
 }

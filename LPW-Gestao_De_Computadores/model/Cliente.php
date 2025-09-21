@@ -7,9 +7,6 @@ class Cliente
     private $nome;
     private $telefone;
     private $email;
-    private ?TipoServico $tipoServico;
-    private ?OrdemServico $ordem_servico;
-
     public function getId()
     {
         return $this->id;
@@ -46,22 +43,4 @@ class Cliente
         $this->email = $email;
     }
 
-    public function getTipoServico(): ?TipoServico
-    {
-        return $this->tipoServico;
-    }
-    public function setTipoServico(?TipoServico $tipoServico): self
-    {
-        $this->tipoServico = $tipoServico;
-        return $this;
-    }
-
-    public function getOrdemServico(): ?OrdemServico {
-        return $this->ordem_servico;
-    }
-    public function setOrdemServico(?OrdemServico $ordem_servico): self
-    {
-        $this->ordem_servico = $ordem_servico;
-        return $this;
-    }
 }

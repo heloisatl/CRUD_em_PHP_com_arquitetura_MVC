@@ -28,6 +28,8 @@ class OrdemServicoDAO {
         return $this->map($result);
     }
 
+
+
     public function buscarPorId(int $id) {
         $sql = "SELECT os.*, 
                        cl.id AS cl_id, cl.nome AS cl_nome, cl.telefone, cl.email,
@@ -56,8 +58,8 @@ class OrdemServicoDAO {
                 $ordem->getDataEntrada(),
                 $ordem->getPrazoEstimadoSaida(),
                 $ordem->getStatus(),
-                $ordem->getCliente()?->getId(),
-                $ordem->getTipoServico()?->getId()
+                $ordem->getCliente()->getId(),
+                $ordem->getTipoServico()->getId()
             ]);
             return null;
         } catch(PDOException $e) {
