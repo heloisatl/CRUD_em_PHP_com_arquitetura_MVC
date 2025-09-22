@@ -46,6 +46,7 @@ class OrdemServico {
     public function getStatus() {
         return $this->status;
     }
+
     public function setStatus($status): self {
         $this->status = $status;
         return $this;

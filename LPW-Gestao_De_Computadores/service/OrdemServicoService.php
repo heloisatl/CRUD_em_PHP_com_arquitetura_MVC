@@ -27,7 +27,7 @@ class OrdemServicoService
 
         if (empty($ordemServico->getStatus())) {
             $erros[] = "O status é obrigatório.";
-        } elseif (!in_array($ordemServico->getStatus(), ['Aberto', 'Em Progresso', 'Concluído', 'Cancelado'])) {
+        } elseif (!in_array($ordemServico->getStatus(), ['Aberta', 'Em andamento', 'Concluída', 'Cancelada'])) {
             $erros[] = "O status informado é inválido.";
         }
 

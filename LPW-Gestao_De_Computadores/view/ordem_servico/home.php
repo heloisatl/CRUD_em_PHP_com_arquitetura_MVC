@@ -1,1 +1,9 @@
-AQUI VAI FICAR UMA PÁGINA BONITINHA DE APRESENTAÇÃO DO PROJETO 
+<?php include_once(__DIR__ . "/../include/header.php"); ?>
+
+    <div class="home-container">
+
+        <h2 class="home-h2">Bem-vindo ao Sistema de Gestão de Computadores</h2>
+        <p class="home-subtitle">Gerencie ordens de serviço, cadastros e clientes de forma simples e intuitiva.</p>
+
+        <a href="ordens.php" class="home-btn">Começar Agora</a>
+    </div>

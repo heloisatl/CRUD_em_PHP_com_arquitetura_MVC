@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/config.php");
 
+//Arquivo Connection.php
 class Connection {
 
     private static $conn = null;

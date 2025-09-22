@@ -91,12 +91,23 @@ class OrdemServicoController
     }
 
     // ✅ Adicione este método para exclusão
-    public function excluir(int $id): ?string
+   // public function excluir(int $id): ?string
+    //{
+      //  $erro = $this->ordemServicoDAO->excluirPorId($id);
+        //if ($erro !== null) {
+          //  return $erro->getMessage();
+        //}
+        //return null;
+    //}
+
+    public function buscarPorId(int $id): ?OrdemServico
     {
-        $erro = $this->ordemServicoDAO->excluirPorId($id);
-        if ($erro !== null) {
-            return $erro->getMessage();
-        }
-        return null;
+        return $this->ordemServicoDAO->buscarPorId($id);
     }
+
+   
+    public function excluir($id) {
+        return $this->ordemServicoDAO->excluirPorId($id);
+    }
+
 }

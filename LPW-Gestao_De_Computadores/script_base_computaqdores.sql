@@ -6,6 +6,12 @@ CREATE TABLE cliente (
     email VARCHAR(100)
 );
 
+-- Inserir alguns clientes padrão
+INSERT INTO cliente (nome, telefone, email) VALUES
+('Maria Exemplo', '11999999999', 'maria@exemplo.com'),
+('João Exemplo', '11988888888', 'joao@exemplo.com'),
+('Ana Exemplo', '11977777777', 'ana@exemplo.com');
+
 -- Tabela tipo_servico
 CREATE TABLE tipo_servico (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,6 +35,6 @@ CREATE TABLE ordem_servico (
     status ENUM('Aberta', 'Em andamento', 'Concluída', 'Cancelada') DEFAULT 'Aberta',
     id_cliente INT NOT NULL,
     id_tipo_servico INT NOT NULL,
-    CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id),
-    CONSTRAINT fk_tipo_servico FOREIGN KEY (id_tipo_servico) REFERENCES tipo_servico(id)
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id),
+    FOREIGN KEY (id_tipo_servico) REFERENCES tipo_servico(id)
 );

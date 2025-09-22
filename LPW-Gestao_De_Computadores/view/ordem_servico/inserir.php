@@ -15,6 +15,7 @@ $clientes = $ordemServicoCont->listarClientes();
 $tiposServico = $ordemServicoCont->listarTiposServico();
 
 
+
 // Verificar o método HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

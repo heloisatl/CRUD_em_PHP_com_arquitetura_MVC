@@ -7,6 +7,7 @@ class Cliente
     private $nome;
     private $telefone;
     private $email;
+    
     public function getId()
     {
         return $this->id;

@@ -1,23 +1,20 @@
 <?php
 
 // ClienteController.php
-require_once '../model/Cliente.php';
-require_once '../dao/ClienteDAO.php';
-require_once '../dao/TipoServicoDAO.php';
+require_once __DIR__ . '/../model/Cliente.php';
+require_once __DIR__ . '/../dao/ClienteDAO.php';
 
 class ClienteController {
 
-    private ClienteDAO $clienteDAO;
-    private TipoServicoDAO $tipoServicoDAO; 
+    public ClienteDAO $clienteDAO;
     
     public function __construct() {
         $this->clienteDAO = new ClienteDAO();
-        
     }
     
     public function listar() {
         $clientes = $this->clienteDAO->listar();
-        include '../view/cliente/listar.php';
+        include __DIR__ . '/../view/cliente/listar.php';
     }
     
     public function inserir() {
@@ -37,21 +34,22 @@ class ClienteController {
             }
         }
         
-        include '../view/cliente/cadastrar.php';
+        include __DIR__ . '/../view/cliente/cadastrar.php';
     }
 
     public function alterar() {
         $cliente = null;
         $erro = null;
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
             $id = $_GET['id'];
             $cliente = $this->clienteDAO->buscarPorId($id);
             if (!$cliente) {
-                // Redireciona se o cliente não for encontrado
                 header('Location: listar.php');
                 exit;
             }
+            include __DIR__ . '/../view/cliente/alterar.php';
+            return;
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cliente = new Cliente();
             $cliente->setId($_POST['id']);
@@ -64,9 +62,13 @@ class ClienteController {
                 header('Location: listar.php?sucesso=1');
                 exit;
             }
+            // Se houver erro, exibe o formulário novamente
+            include __DIR__ . '/../view/cliente/alterar.php';
+            return;
         }
-    
-        include '../view/cliente/alterar.php';
+        // Se não for GET nem POST, redireciona
+        header('Location: listar.php');
+        exit;
     }
     
     public function excluir() {
@@ -79,11 +81,18 @@ class ClienteController {
             if ($erro === null) {
                 header('Location: listar.php?sucesso=1');
                 exit;
+            } else {
+                header('Location: listar.php?erro=' . urlencode($erro->getMessage()));
+                exit;
             }
         }
 
-        header('Location: listar.php?erro=' . urlencode($erro->getMessage()));
+        header('Location: listar.php?erro=ID não informado');
         exit;
+    }
+
+    public function buscarPorId($id) {
+        return $this->clienteDAO->buscarPorId($id);
     }
 }
 ?>

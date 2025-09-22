@@ -89,14 +89,15 @@ class OrdemServicoDAO {
         }
     }
 
-    public function excluirPorId(int $id): ?PDOException {
+    public function excluirPorId($id): ?\PDOException
+    {
         try {
             $sql = "DELETE FROM ordem_servico WHERE id = :id";
             $stm = $this->conexao->prepare($sql);
             $stm->bindValue(":id", $id);
             $stm->execute();
             return null;
-        } catch(PDOException $e) {
+        } catch (\PDOException $e) {
             return $e;
         }
     }
@@ -111,24 +112,24 @@ class OrdemServicoDAO {
             $ordem->setPrazoEstimadoSaida($r["prazo_estimado"]);
             $ordem->setStatus($r["status"]);
 
-            if(isset($r["cl_id"])) {
-                $cliente = new Cliente();
-                $cliente->setId($r["cl_id"]);
-                $cliente->setNome($r["cl_nome"]);
-                $cliente->setTelefone($r["telefone"]);
-                $cliente->setEmail($r["email"]);
-                $ordem->setCliente($cliente);
-            }
+            // Instanciar Cliente
+            $cliente = new Cliente();
+            $cliente->setId($r["cl_id"]);
+            $cliente->setNome($r["cl_nome"]);
+            $cliente->setTelefone($r["telefone"]);
+            $cliente->setEmail($r["email"]);
+            $ordem->setCliente($cliente);
 
-            if(isset($r["ts_id"])) {
-                $tipoServico = new TipoServico();
-                $tipoServico->setId($r["ts_id"]);
-                $tipoServico->setNome($r["ts_nome"]);
-                $ordem->setTipoServico($tipoServico);
-            }
+            // Instanciar TipoServico (opcional, se usar)
+            $tipoServico = new TipoServico();
+            $tipoServico->setId($r["ts_id"]);
+            $tipoServico->setNome($r["ts_nome"]);
+            $ordem->setTipoServico($tipoServico);
 
             $ordens[] = $ordem;
         }
         return $ordens;
     }
+
+    
 }

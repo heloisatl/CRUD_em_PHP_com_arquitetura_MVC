@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../dao/TipoServicoDAO.php");
 
 class TipoServicoController {
 
-    private TipoServicoDAO $tipoServicoDAO;
+    public TipoServicoDAO $tipoServicoDAO;
 
     public function __construct() {
         $this->tipoServicoDAO = new TipoServicoDAO;
