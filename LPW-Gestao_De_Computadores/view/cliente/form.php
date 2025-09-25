@@ -13,8 +13,7 @@ include_once(__DIR__ . "/../include/header.php");
 
 <div class="form-card">
     <div class="form-tabs">
-        <button class="form-tab active" type="button">Cadastrar</button>
-        <button class="form-tab" type="button" onclick="window.location.href='listar.php'">Listar</button>
+        <div class="form-tab flex-fill text-center active" style="color:#000;border-radius:16px 16px 0 0; font-weight:bold;">Novo Cliente</div>
     </div>
     <div class="form-avatar">
         <div class="form-avatar-icon">

@@ -11,7 +11,7 @@ include_once(__DIR__ . "/../include/header.php");
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-11">
-            <h5 class="text-center mb-4" style="color:#000B58;">Listagem de Ordens de Serviço</h5>
+            <h5 class="text-center mb-4" style="color:#fff; background: linear-gradient(-45deg, var(--bg-dark), var(--bg-darker),   var(--bg-dark))">Listagem de Ordens de Serviço</h5>
             <table class="table table-bordered table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr class="text-center">
