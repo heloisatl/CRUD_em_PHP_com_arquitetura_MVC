@@ -11,7 +11,7 @@ class ClienteService
         $nome = trim($cliente->getNome());
         if (empty($nome)) {
             $erros[] = "O nome é obrigatório.";
-        } else {
+        } else {    
             if (strlen($nome) < 2) {
                 $erros[] = "O nome deve ter pelo menos 2 caracteres.";
             }
