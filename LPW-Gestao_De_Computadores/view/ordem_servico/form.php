@@ -13,10 +13,10 @@
                 </div>
                 <form method="POST" action="">
                     <div class="mb-3">
-                        <textarea class="form-control" name="descricao_problema" placeholder="Descrição do Problema" required><?= isset($descricaoProblema) ? htmlspecialchars($descricaoProblema) : '' ?></textarea>
+                        <textarea class="form-control" name="descricao_problema" placeholder="Descrição do Problema" ><?= isset($descricaoProblema) ? htmlspecialchars($descricaoProblema) : '' ?></textarea>
                     </div>
                     <div class="mb-3">
-                        <select class="form-control" name="id_cliente" required>
+                        <select class="form-control" name="id_cliente" >
                             <option value="">Selecione o Cliente</option>
                             <?php foreach ($clientes as $c): ?>
                                 <option value="<?= $c->getId() ?>" <?= (isset($idCliente) && $idCliente == $c->getId()) ? 'selected' : '' ?>>
@@ -26,7 +26,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <select class="form-control" name="id_tipo_servico" required>
+                        <select class="form-control" name="id_tipo_servico" >
                             <option value="">Selecione o Tipo de Serviço</option>
                             <?php foreach ($tiposServico as $tipo): ?>
                                 <option value="<?= $tipo->getId() ?>" <?= (isset($idTipoServico) && $idTipoServico == $tipo->getId()) ? 'selected' : '' ?>>
@@ -39,14 +39,14 @@
                         <p>
                             Data de entrada
                         </p>
-                        <input type="date" class="form-control" name="data_entrada" value="<?= isset($dataEntrada) ? htmlspecialchars($dataEntrada) : '' ?>" required>
+                        <input type="date" class="form-control" name="data_entrada" value="<?= isset($dataEntrada) ? htmlspecialchars($dataEntrada) : '' ?>" >
                     </div>
                     <div class="mb-3">
                         <p   >Prazo estimado para a saída</p>
-                        <input type="date" class="form-control" name="prazo_estimado_saida" value="<?= isset($prazoEstimado) ? htmlspecialchars($prazoEstimado) : '' ?>" required>
+                        <input type="date" class="form-control" name="prazo_estimado_saida" value="<?= isset($prazoEstimado) ? htmlspecialchars($prazoEstimado) : '' ?>" >
                     </div>
                     <div class="mb-3">
-                        <select class="form-control" id="status" name="status" required>
+                        <select class="form-control" id="status" name="status" >
                             <option value="">Selecione</option>
                             <option value="Aberta" <?= (isset($status) && $status == "Aberta") ? "selected" : "" ?>>Aberta</option>
                             <option value="Em andamento" <?= (isset($status) && $status == "Em andamento") ? "selected" : "" ?>>Em andamento</option>
