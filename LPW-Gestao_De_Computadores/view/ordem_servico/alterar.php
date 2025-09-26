@@ -82,11 +82,11 @@ include_once(__DIR__ . "/../include/header.php");
         <input type="hidden" name="id" value="<?= htmlspecialchars($ordemServico->getId()) ?>">
         <div class="mb-3">
             <label for="descricao_problema" class="form-label">Descrição do Problema</label>
-            <textarea class="form-control" id="descricao_problema" name="descricao_problema" required><?= htmlspecialchars($ordemServico->getDescricaoProblema()) ?></textarea>
+            <textarea class="form-control" id="descricao_problema" name="descricao_problema" ><?= htmlspecialchars($ordemServico->getDescricaoProblema()) ?></textarea>
         </div>
         <div class="mb-3" style="color: white">
             <label for="id_cliente" class="form-label">Cliente</label>
-            <select class="form-control" id="id_cliente" name="id_cliente" required>
+            <select class="form-control" id="id_cliente" name="id_cliente" >
                 <option value="">Selecione o Cliente</option>
                 <?php foreach ($clientes as $cliente): ?>
                     <option value="<?= $cliente->getId() ?>" <?= ($ordemServico->getCliente() && $ordemServico->getCliente()->getId() == $cliente->getId()) ? 'selected' : '' ?>>
@@ -97,7 +97,7 @@ include_once(__DIR__ . "/../include/header.php");
         </div>
         <div class="mb-3" style="color: white">
             <label for="id_tipo_servico" class="form-label">Tipo de Serviço</label>
-            <select class="form-control" id="id_tipo_servico" name="id_tipo_servico" required>
+            <select class="form-control" id="id_tipo_servico" name="id_tipo_servico" >
                 <option value="">Selecione o Tipo de Serviço</option>
                 <?php foreach ($tiposServico as $tipo): ?>
                     <option value="<?= $tipo->getId() ?>" <?= ($ordemServico->getTipoServico() && $ordemServico->getTipoServico()->getId() == $tipo->getId()) ? 'selected' : '' ?>>
@@ -109,16 +109,16 @@ include_once(__DIR__ . "/../include/header.php");
         <div class="mb-3" style="color: white">
             <label for="data_entrada" class="form-label">Data de Entrada</label>
             <input type="date" class="form-control" id="data_entrada" name="data_entrada"
-                value="<?= htmlspecialchars(substr($ordemServico->getDataEntrada(), 0, 10)) ?>" required>
+                value="<?= htmlspecialchars(substr($ordemServico->getDataEntrada(), 0, 10)) ?>" >
         </div>
         <div class="mb-3" style="color: white">
             <label for="prazo_estimado_saida" class="form-label">Prazo Estimado de Saída</label>
             <input type="date" class="form-control" id="prazo_estimado_saida" name="prazo_estimado_saida"
-                value="<?= htmlspecialchars($ordemServico->getPrazoEstimadoSaida()) ?>" required>
+                value="<?= htmlspecialchars($ordemServico->getPrazoEstimadoSaida()) ?>" >
         </div>
         <div class="mb-3" style="color: white">
             <label for="status" class="form-label">Status</label>
-            <select class="form-control" id="status" name="status" required>
+            <select class="form-control" id="status" name="status" >
                 <option value="">Selecione</option>
                 <option value="Aberta" <?= ($ordemServico && $ordemServico->getStatus() == "Aberta") ? "selected" : "" ?>>Aberta</option>
                 <option value="Em andamento" <?= ($ordemServico && $ordemServico->getStatus() == "Em andamento") ? "selected" : "" ?>>Em andamento</option>

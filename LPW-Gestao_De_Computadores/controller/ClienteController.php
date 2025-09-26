@@ -1,15 +1,17 @@
 <?php
-
 // ClienteController.php
 require_once __DIR__ . '/../model/Cliente.php';
 require_once __DIR__ . '/../dao/ClienteDAO.php';
+require_once __DIR__ . '/../service/ClienteService.php';
 
 class ClienteController {
 
     public ClienteDAO $clienteDAO;
+    private ClienteService $clienteService;
     
     public function __construct() {
         $this->clienteDAO = new ClienteDAO();
+        $this->clienteService = new ClienteService();
     }
     
     public function listar() {
@@ -17,63 +19,46 @@ class ClienteController {
         include __DIR__ . '/../view/cliente/listar.php';
     }
     
-    public function inserir() {
-        $cliente = new Cliente();
-        $erro = null;
+    public function processarCadastro(Cliente $cliente): ?array
+    {
+        // Validação
+        $erros = $this->clienteService->validarCliente($cliente);
+        
+        if (!empty($erros)) {
+            return $erros;
+        }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $cliente->setNome($_POST['nome']);
-            $cliente->setTelefone($_POST['telefone']);
-            $cliente->setEmail($_POST['email']);
-            
+        // Inserção no banco
+        try {
             $erro = $this->clienteDAO->inserir($cliente);
             
-            if ($erro === null) {
-                header('Location: listar.php?sucesso=1');
-                exit;
+            if ($erro !== null) {
+                return ["Erro no banco de dados: " . $erro->getMessage()];
             }
+            
+            return null; 
+        } catch (Exception $e) {
+            return ["Erro inesperado: " . $e->getMessage()];
         }
-        
-        include __DIR__ . '/../view/cliente/cadastrar.php';
     }
 
-    public function alterar() {
-        $cliente = null;
-        $erro = null;
-
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $cliente = $this->clienteDAO->buscarPorId($id);
-            if (!$cliente) {
-                header('Location: listar.php');
-                exit;
-            }
-            include __DIR__ . '/../view/cliente/alterar.php';
-            return;
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $cliente = new Cliente();
-            $cliente->setId($_POST['id']);
-            $cliente->setNome($_POST['nome']);
-            $cliente->setTelefone($_POST['telefone']);
-            $cliente->setEmail($_POST['email']);
-
-            $erro = $this->clienteDAO->alterar($cliente);
-            if ($erro === null) {
-                header('Location: listar.php?sucesso=1');
-                exit;
-            }
-            // Se houver erro, exibe o formulário novamente
-            include __DIR__ . '/../view/cliente/alterar.php';
-            return;
+    public function alterar(Cliente $cliente): array
+    {
+        $erros = $this->clienteService->validarCliente($cliente);
+        
+        if (!empty($erros)) {
+            return $erros;
         }
-        // Se não for GET nem POST, redireciona
-        header('Location: listar.php');
-        exit;
+
+        $erro = $this->clienteDAO->alterar($cliente);
+        if ($erro !== null) {
+            $erros[] = "Erro ao atualizar: " . $erro->getMessage();
+        }
+
+        return $erros;
     }
     
     public function excluir() {
-        $erro = null;
-
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $erro = $this->clienteDAO->excluirPorId($id);

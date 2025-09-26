@@ -120,7 +120,7 @@ class OrdemServicoDAO {
             $cliente->setEmail($r["email"]);
             $ordem->setCliente($cliente);
 
-            // Instanciar TipoServico (opcional, se usar)
+            // Instanciar TipoServico 
             $tipoServico = new TipoServico();
             $tipoServico->setId($r["ts_id"]);
             $tipoServico->setNome($r["ts_nome"]);

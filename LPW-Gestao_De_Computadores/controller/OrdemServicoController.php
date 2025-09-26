@@ -35,45 +35,31 @@ class OrdemServicoController
         return $this->tipoServicoDAO->listar();
     }
 
-    public function buscarClientePorId(int $id): ?Cliente
-    {
-        return $this->clienteDAO->buscarPorId($id);
-    }
-
-    public function buscarTipoServicoPorId(int $id): ?TipoServico
-    {
-        return $this->tipoServicoDAO->buscarPorId($id);
-    }
-
-    // ✅ CORRETO - método que apenas processa o cadastro (sem incluir view)
-    public function cadastrar(OrdemServico $ordemServico)
+    
+    public function cadastrar(OrdemServico $ordemServico): ?array
     {
         // Validação
         $erros = $this->ordemServicoService->validarOrdemServico($ordemServico);
         
         if (!empty($erros)) {
-            return $erros; // Retorna array de erros de validação
+            return $erros; 
         }
 
         // Inserção no banco
-        $erro = $this->ordemServicoDAO->inserir($ordemServico);
-        
-        if ($erro !== null) {
-            return [$erro->getMessage()]; // Retorna array com erro do banco
+        try {
+            $erro = $this->ordemServicoDAO->inserir($ordemServico);
+            
+            if ($erro !== null) {
+                return ["Erro no banco de dados: " . $erro->getMessage()];
+            }
+            
+            return null; 
+        } catch (Exception $e) {
+            return ["Erro inesperado: " . $e->getMessage()];
         }
-
-        return null; // Sucesso
     }
 
-    // ✅ NOVO método para exibir o formulário
-    public function exibirFormularioCadastro()
-    {
-        $clientes = $this->listarClientes();
-        $tiposServico = $this->listarTiposServico();
-        
-        include '../view/ordem_servico/cadastrar.php';
-    }
-
+    
     public function alterar(OrdemServico $ordemServico): array
     {
         $erros = $this->ordemServicoService->validarOrdemServico($ordemServico);
@@ -90,24 +76,13 @@ class OrdemServicoController
         return $erros;
     }
 
-    // ✅ Adicione este método para exclusão
-   // public function excluir(int $id): ?string
-    //{
-      //  $erro = $this->ordemServicoDAO->excluirPorId($id);
-        //if ($erro !== null) {
-          //  return $erro->getMessage();
-        //}
-        //return null;
-    //}
-
     public function buscarPorId(int $id): ?OrdemServico
     {
         return $this->ordemServicoDAO->buscarPorId($id);
     }
 
-   
-    public function excluir($id) {
+    public function excluir($id): ?PDOException
+    {
         return $this->ordemServicoDAO->excluirPorId($id);
     }
-
 }

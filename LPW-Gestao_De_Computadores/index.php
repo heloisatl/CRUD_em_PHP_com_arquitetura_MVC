@@ -1,4 +1,4 @@
 <?php
-    //Redireciona para a listagem de alunos
+    //Redireciona para a listagem de clientes
     header("location: ./view/ordem_servico/listar.php");
     

@@ -80,7 +80,6 @@ class ClienteDAO
         }
     }
 
-    // Mapeamento dos resultados para objetos Cliente
     private function map(array $result): array
     {
         $clientes = [];
