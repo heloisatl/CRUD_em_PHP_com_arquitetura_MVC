@@ -71,20 +71,20 @@ include_once(__DIR__ . "/../include/header.php");
 
 <link rel="stylesheet" href="../estilo/style.css">
 
-<h3>Editar Ordem de Serviço</h3>
+<h3 style="color:white;padding: 40px 0 20px 0">Editar Ordem de Serviço</h3>
 
 <?php if ($msgErro): ?>
     <div class="alert alert-danger"><?= $msgErro ?></div>
 <?php endif; ?>
 
 <?php if ($ordemServico): ?>
-    <form method="POST" action="">
+    <form method="POST" action="" style="color: white">  
         <input type="hidden" name="id" value="<?= htmlspecialchars($ordemServico->getId()) ?>">
         <div class="mb-3">
             <label for="descricao_problema" class="form-label">Descrição do Problema</label>
             <textarea class="form-control" id="descricao_problema" name="descricao_problema" required><?= htmlspecialchars($ordemServico->getDescricaoProblema()) ?></textarea>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="color: white">
             <label for="id_cliente" class="form-label">Cliente</label>
             <select class="form-control" id="id_cliente" name="id_cliente" required>
                 <option value="">Selecione o Cliente</option>
@@ -95,7 +95,7 @@ include_once(__DIR__ . "/../include/header.php");
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="color: white">
             <label for="id_tipo_servico" class="form-label">Tipo de Serviço</label>
             <select class="form-control" id="id_tipo_servico" name="id_tipo_servico" required>
                 <option value="">Selecione o Tipo de Serviço</option>
@@ -106,17 +106,17 @@ include_once(__DIR__ . "/../include/header.php");
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="color: white">
             <label for="data_entrada" class="form-label">Data de Entrada</label>
             <input type="date" class="form-control" id="data_entrada" name="data_entrada"
                 value="<?= htmlspecialchars(substr($ordemServico->getDataEntrada(), 0, 10)) ?>" required>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="color: white">
             <label for="prazo_estimado_saida" class="form-label">Prazo Estimado de Saída</label>
             <input type="date" class="form-control" id="prazo_estimado_saida" name="prazo_estimado_saida"
                 value="<?= htmlspecialchars($ordemServico->getPrazoEstimadoSaida()) ?>" required>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" style="color: white">
             <label for="status" class="form-label">Status</label>
             <select class="form-control" id="status" name="status" required>
                 <option value="">Selecione</option>

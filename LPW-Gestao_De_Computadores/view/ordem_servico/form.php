@@ -36,9 +36,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <p>
+                            Data de entrada
+                        </p>
                         <input type="date" class="form-control" name="data_entrada" value="<?= isset($dataEntrada) ? htmlspecialchars($dataEntrada) : '' ?>" required>
                     </div>
                     <div class="mb-3">
+                        <p   >Prazo estimado para a saída</p>
                         <input type="date" class="form-control" name="prazo_estimado_saida" value="<?= isset($prazoEstimado) ? htmlspecialchars($prazoEstimado) : '' ?>" required>
                     </div>
                     <div class="mb-3">
